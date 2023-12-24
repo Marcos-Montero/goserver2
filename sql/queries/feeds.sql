@@ -20,3 +20,23 @@ SELECT
     *
 FROM
     FEEDS;
+
+-- name: GetNextFeedToFetch :one
+
+SELECT
+    *
+FROM
+    FEEDS
+ORDER BY
+    LAST_FETCHED_AT ASC NULLS FIRST LIMIT 1;
+
+-- name: MarkFeedAsFetched :one
+
+UPDATE FEEDS
+SET
+    LAST_FETCHED_AT = NOW(
+    ),
+    UPDATED_AT = NOW(
+    )
+WHERE
+    ID = $1 RETURNING *;
