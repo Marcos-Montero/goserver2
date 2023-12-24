@@ -21,14 +21,14 @@ SELECT
 FROM
     FEEDS;
 
--- name: GetNextFeedToFetch :one
+-- name: GetNextFeedsToFetch :many
 
 SELECT
     *
 FROM
     FEEDS
 ORDER BY
-    LAST_FETCHED_AT ASC NULLS FIRST LIMIT 1;
+    LAST_FETCHED_AT ASC NULLS FIRST LIMIT $1;
 
 -- name: MarkFeedAsFetched :one
 
