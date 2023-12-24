@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"encoding/json"
@@ -6,10 +6,11 @@ import (
 	"time"
 
 	"github.com/MarcosMRod/goserver2/internal/database"
+	"github.com/MarcosMRod/goserver2/utils"
 	"github.com/google/uuid"
 )
 
-func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Request, user database.User) {
+func (apiCfg *ApiConfig) HandlerCreateFeed(w http.ResponseWriter, r *http.Request, user database.User) {
 	type parameters struct {
 		Name string `json:"name"`
 		URL string `json:"url"`
@@ -19,7 +20,7 @@ func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Reques
 	params := parameters{}
 	err:= decoder.Decode(&params)
 	if err != nil {
-		respondWithError(w, 400, "😟 - Err parsing JSON")
+		utils.RespondWithError(w, 400, "😟 - Err parsing JSON")
 		return
 	}
 	feed, err := apiCfg.DB.CreateFeed(r.Context(), database.CreateFeedParams{
@@ -31,16 +32,16 @@ func (apiCfg *apiConfig) handlerCreateFeed(w http.ResponseWriter, r *http.Reques
 		UserID: user.ID,
 	})
 	if err != nil {
-		respondWithError(w, 500, "😟 - Err creating feed")
+		utils.RespondWithError(w, 500, "😟 - Err creating feed")
 		return
 	}
-	respondWithJSON(w, 201, databaseFeedToFeed(feed))
+	utils.RespondWithJSON(w, 201, utils.DatabaseFeedToFeed(feed))
 }
-func (apiCfg *apiConfig) handlerGetFeeds(w http.ResponseWriter, r *http.Request) {
+func (apiCfg *ApiConfig) HandlerGetFeeds(w http.ResponseWriter, r *http.Request) {
 	feeds, err := apiCfg.DB.GetFeeds(r.Context())
 	if err != nil {
-		respondWithError(w, 500, "😟 - Err getting feeds")
+		utils.RespondWithError(w, 500, "😟 - Err getting feeds")
 		return
 	}
-	respondWithJSON(w, 201, databaseFeedsToFeeds(feeds))
+	utils.RespondWithJSON(w, 201, utils.DatabaseFeedsToFeeds(feeds))
 }

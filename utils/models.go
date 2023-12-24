@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"time"
@@ -15,7 +15,7 @@ type User struct {
 	ApiKey string `json:"api_key"`
 }
 
-func databaseUserToUser(dbUser database.User) User {
+func DatabaseUserToUser(dbUser database.User) User {
 	return User{
 		ID: dbUser.ID,
 		Name: dbUser.Name,
@@ -33,7 +33,7 @@ type Feed struct {
 	UserID uuid.UUID `json:"user_id"`
 }
 
-func databaseFeedToFeed(dbFeed database.Feed) Feed {
+func DatabaseFeedToFeed(dbFeed database.Feed) Feed {
 	return Feed{
 		ID: dbFeed.ID,
 		CreatedAt: dbFeed.CreatedAt.String(),
@@ -43,10 +43,10 @@ func databaseFeedToFeed(dbFeed database.Feed) Feed {
 		UserID: dbFeed.UserID,
 	}
 }
-func databaseFeedsToFeeds(dbFeeds []database.Feed) []Feed {
+func DatabaseFeedsToFeeds(dbFeeds []database.Feed) []Feed {
 	feeds := []Feed{}
 	for _, dbFeed := range dbFeeds {
-		feeds = append(feeds, databaseFeedToFeed(dbFeed))
+		feeds = append(feeds, DatabaseFeedToFeed(dbFeed))
 	}
 	return feeds
 }
@@ -57,7 +57,7 @@ type FeedFollow struct {
 	UserID uuid.UUID `json:"user_id"`
 	FeedID uuid.UUID `json:"feed_id"`
 }
-func databaseFeedFollowToFeedFollow(dbFeedFollow database.FeedFollow) FeedFollow {
+func DatabaseFeedFollowToFeedFollow(dbFeedFollow database.FeedFollow) FeedFollow {
 	return FeedFollow{
 		ID: dbFeedFollow.ID,
 		CreatedAt: dbFeedFollow.CreatedAt.String(),
@@ -66,10 +66,10 @@ func databaseFeedFollowToFeedFollow(dbFeedFollow database.FeedFollow) FeedFollow
 		FeedID: dbFeedFollow.FeedID,
 	}
 }
-func databaseFeedFollowsToFeedFollows(dbFeedFollows []database.FeedFollow) []FeedFollow {
+func DatabaseFeedFollowsToFeedFollows(dbFeedFollows []database.FeedFollow) []FeedFollow {
 	feedFollows := []FeedFollow{}
 	for _, dbFeedFollow := range dbFeedFollows {
-		feedFollows = append(feedFollows, databaseFeedFollowToFeedFollow(dbFeedFollow))
+		feedFollows = append(feedFollows, DatabaseFeedFollowToFeedFollow(dbFeedFollow))
 	}
 	return feedFollows
 }
@@ -83,7 +83,7 @@ type Post struct {
 	Url string `json:"url"`
 	FeedID uuid.UUID `json:"feed_id"`
 }
-func databasePosToPost(dbPost database.Post) Post {
+func DatabasePosToPost(dbPost database.Post) Post {
 	description := ""
 	if dbPost.Description.Valid {
 		description = dbPost.Description.String
@@ -99,10 +99,10 @@ func databasePosToPost(dbPost database.Post) Post {
 		FeedID:      dbPost.FeedID,
 	}
 }
-func databasePostsToPosts(dbPosts []database.Post) []Post {
+func DatabasePostsToPosts(dbPosts []database.Post) []Post {
 	posts := []Post{}
 	for _, dbPost := range dbPosts {
-		posts = append(posts, databasePosToPost(dbPost))
+		posts = append(posts, DatabasePosToPost(dbPost))
 	}
 	return posts
 }

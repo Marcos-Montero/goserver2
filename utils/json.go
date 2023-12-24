@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"encoding/json"
@@ -6,18 +6,18 @@ import (
 	"net/http"
 )
 
-func respondWithError(w http.ResponseWriter, code int, message string) {
+func RespondWithError(w http.ResponseWriter, code int, message string) {
 	if code > 499 {
 		log.Println("Reponding with error: ", message)
 		type errorResponse struct {
 			Error string `json:"error"`
 		}
-		respondWithJSON(w, code, errorResponse{Error: message})
+		RespondWithJSON(w, code, errorResponse{Error: message})
 	}
 	
 }
 
-func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
+func RespondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	dat, err := json.Marshal(payload)
 	
 	if err != nil {

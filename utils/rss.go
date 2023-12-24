@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"encoding/xml"
@@ -22,7 +22,7 @@ type RSSItem struct {
 	Description string `xml:"description"`
 	PubDate string `xml:"pubDate"`
 }
-func urlToFeed (url string) (RSSFeed, error) {
+func UrlToFeed (url string) (RSSFeed, error) {
 	httpClient := http.Client{
 		Timeout: time.Second * 10,
 	}

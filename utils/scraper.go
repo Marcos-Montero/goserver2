@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func startScraping(
+func StartScraping(
 	db *database.Queries,
 	concurrency int,
 	timeBetweenRequest time.Duration,
@@ -44,7 +44,7 @@ func scrapeFeed(db *database.Queries, wg *sync.WaitGroup, feed database.Feed) {
 		log.Println(errors.New("Error marking fetch as fetched: " + err.Error()))
 	}
 
-	rssFeed, err := urlToFeed(feed.Url)
+	rssFeed, err := UrlToFeed(feed.Url)
 	if err != nil {
 		log.Println(errors.New("Error fetching feed: " + err.Error()))
 		return
